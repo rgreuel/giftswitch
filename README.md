@@ -7,8 +7,8 @@ This is a work in progress and its purpose is to become more familiar with the t
 dependencies:
 
 * [Node.js](http://www.nodejs.org)
-* A MongoDB database (by default, giftwitch uses a db hosted by [MongoLab](http://www.mongolab.com))
 * [Bower](http://www.bower.io) - a package manager for the web
+* A MongoDB database (by default, giftwitch uses a db hosted by [MongoLab](http://www.mongolab.com))
 
 1. Once node is installed, run `npm install` from the root of this repository to pull in all of the required node modules.
 2. Install Bower globally by running `npm install -g bower`
