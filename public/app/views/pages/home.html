@@ -1,0 +1,40 @@
+<div class="row col-sm-16">
+
+	<div class="jumbotron">
+		<h3>{{ main.owner }}'s Wishlist</h3>
+
+		<ul class="list-group" ng-sortable="{handle:'.drag-handle', animation:150}">
+			<li class="list-group-item" ng-repeat="item in main.wishlist" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false" draggable="false" class>
+				<span class="drag-handle">☰</span>
+				<a ng-href="{{ item.url }}" target="_blank">{{ item.description }}</a>
+				<i class="glyphicon glyphicon-remove" ng-show="hoverEdit" ng-click="main.removeItem(item._id)"></i>
+				<i class="glyphicon glyphicon-edit" ng-show="hoverEdit" ng-click="editItem= !editItem"></i>
+
+				<!-- Edit an existing item -->
+				<ul class="list-group edit-list" ng-show="editItem">
+					<li class="list-group-item">
+						<form class="form-horizontal" ng-submit="main.updateItem()">
+							<input type="text" value="{{ item.description }}" class="form-control">
+							<input type="text" value="{{ item.url }}" class="form-control">
+							<button class="btn btn-primary glyphicon glyphicon-ok"></button>
+							<button class="btn btn-danger glyphicon glyphicon-ban-circle" ng-click="editItem=false"></button>
+						</form>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!-- Add a new item -->
+		<ul class="list-group">
+			<li class="list-group-item">
+				<form class="form-horizontal" ng-submit="main.addItem()">
+					<input type="text" class="form-control" ng-model="main.userData.description"
+						placeholder="Enter a new item...">
+					<input type="text" class="form-control" ng-model="main.userData.url"
+						placeholder="Enter a URL (optional)...">
+					<button type="submit" class="btn btn-success btn-lg btn-block">Add</button>
+				</form>
+			</li>
+		</ul>
+	</div>
+</div>

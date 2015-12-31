@@ -1,0 +1,25 @@
+{
+  "name": "giftswitch",
+  "description": "A simple gift exchange web app",
+  "main": "server.js",
+  "authors": [
+    "Ryan Greuel <ryangreuel@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular": "~1.4.8",
+    "angular-route": "~1.4.8",
+    "angular-animate": "~1.4.8",
+    "Sortable": "angular-ng-sortablejs#~1.4.2"
+  }
+}
