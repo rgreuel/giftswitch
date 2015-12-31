@@ -1,5 +1,5 @@
 
-var express 		= require('express'),
+var	express 		= require('express'),
 	app 			= express(),
 	mongoose		= require('mongoose'),
 	morgan			= require('morgan'),
@@ -41,6 +41,7 @@ app.use(passport.session()); // persistent login sessions
 // ROUTES--------------------------------------------
 require('./app/routes/routes')(app, passport, express); // load our routes and pass in app and configured passport
 //---------------------------------------------------
+
 // start the server
 app.listen(config.port);
 console.log('Magic happens on http://localhost:' + config.port);

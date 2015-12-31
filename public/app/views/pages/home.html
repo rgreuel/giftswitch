@@ -6,7 +6,8 @@
 		<ul class="list-group" ng-sortable="{handle:'.drag-handle', animation:150}">
 			<li class="list-group-item" ng-repeat="item in main.wishlist" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false" draggable="false" class>
 				<span class="drag-handle">☰</span>
-				<a ng-href="{{ item.url }}" target="_blank">{{ item.description }}</a>
+				<a ng-href="{{ item.url }}" target="_blank" ng-show="item.url">{{ item.description }}</a>
+				<span ng-show="!item.url">{{ item.description }}</span>
 				<i class="glyphicon glyphicon-remove" ng-show="hoverEdit" ng-click="main.removeItem(item._id)"></i>
 				<i class="glyphicon glyphicon-edit" ng-show="hoverEdit" ng-click="editItem= !editItem"></i>
 
