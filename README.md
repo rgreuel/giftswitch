@@ -28,6 +28,7 @@ giftswitch was built with:
 * [Angular](http://www.angularjs.org)
 * [MongoDB](http://www.mongodb.org)
 * [Bootstrap](http://www.getbootstrap.com)
+* [Font Awesome] (https://fortawesome.github.io/Font-Awesome/)
 * [Stylus](http://www.stylus-lang.com)
 * [mongoose](http://www.mongoosejs.com)
 * [Passport](http://www.passportjs.org)
