@@ -3,7 +3,7 @@ A simple gift exchange web app built on the MEAN stack.
 
 This is a work in progress and its purpose is to become more familiar with the technologies used.
 
-# installation
+## installation
 dependencies:
 
 * [Node.js](http://www.nodejs.org)
@@ -17,10 +17,10 @@ dependencies:
 5. Access giftswitch at [localhost:8080](http://localhost:8080)
 
 
-# license
+## license
 giftswitch is distributed under the MIT license.
 
-# attribution
+## attribution
 giftswitch was built with:
 
 * [Node.js](http://www.nodejs.org)
