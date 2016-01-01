@@ -63,7 +63,29 @@ module.exports = function(app, express) {
 		// routes that end in /wishlist/:item_id
 		apiRouter.route('/wishlist/:item_id')
 
-			// delete the item with this id from the wishlist
+			// update the item with this id in the wishlist
+			// accessed at PUT http://localhost:8080/api/wishlist/:item_id
+			.put(function(req, res) {
+				User.findById(req.user, function(err, user) {
+					if (err) {
+						res.send(err);
+					}
+
+					user.wishlist.id(req.params.item_id).description = req.body.description;
+					user.wishlist.id(req.params.item_id).url = req.body.url;
+
+					// save the wishlist and check for errors
+					user.save(function(err) {
+						if (err) {
+							res.send(err);
+						}
+						// only send back the changed item
+						res.json(user.wishlist.id(req.params.item_id));
+					});
+				});
+			})
+
+			// delete the item with this id in the wishlist
 			// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
 			.delete(function(req, res) {
 				User.findById(req.user, function(err, user) {

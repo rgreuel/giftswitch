@@ -14,9 +14,9 @@
 				<!-- Edit an existing item -->
 				<ul class="list-group edit-list" ng-show="editItem">
 					<li class="list-group-item">
-						<form class="form-horizontal" ng-submit="main.updateItem()">
-							<input type="text" value="{{ item.description }}" class="form-control">
-							<input type="text" value="{{ item.url }}" class="form-control">
+						<form class="form-horizontal" ng-submit="main.updateItem(item._id, $index); editItem = false">
+							<input type="text" value="{{ item.description }}" class="form-control" name="newDescription">
+							<input type="text" value="{{ item.url }}" class="form-control" name="newUrl">
 							<div class="edit-form-buttons" align="right">
 								<button type="reset" class="btn btn-danger glyphicon glyphicon-ban-circle" ng-click="editItem = false"></button>
 								<button type="submit" class="btn btn-primary glyphicon glyphicon-ok"></button>

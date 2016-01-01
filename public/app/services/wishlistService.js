@@ -20,6 +20,11 @@ angular.module('wishlistService', [])
 		return $http.post('/api/wishlist', userData);
 	};
 
+	// update the wishlist item
+	wishlistFactory.update = function(id, userData) {
+		return $http.put('/api/wishlist/' + id, userData);
+	};
+
 	// remove item from the wishlist
 	wishlistFactory.remove = function(id) {
 		return $http.delete('/api/wishlist/' + id);

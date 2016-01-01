@@ -3,6 +3,8 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 .controller('mainController', function($window, $location, Wishlist) {
 	var vm = this;
 
+	vm.editItem = false;
+
 	vm.loggedIn = false;
 	if ($location.path() !== '/login') {
 		vm.loggedIn = true;
@@ -29,6 +31,19 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 
 				// grab the returned new wishlist
 				vm.wishlist = data;
+			});
+	};
+
+	vm.updateItem = function(id, index) {
+
+		var newData = {};
+		newData.description = document.getElementsByName("newDescription")[index].value;
+		newData.url = document.getElementsByName("newUrl")[index].value;
+
+		// call the update API
+		Wishlist.update(id, newData)
+			.success(function(data) {
+				vm.wishlist[index] = data;
 			});
 	};
 
