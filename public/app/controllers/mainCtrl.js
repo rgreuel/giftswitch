@@ -3,8 +3,6 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 .controller('mainController', function($window, $location, Wishlist) {
 	var vm = this;
 
-	vm.editItem = false;
-
 	vm.loggedIn = false;
 	if ($location.path() !== '/login') {
 		vm.loggedIn = true;
