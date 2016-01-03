@@ -9,7 +9,10 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-				User.hasMany(models.Wishlist);
+				User.hasMany(models.Wishlist, {
+					foreignKey: { allowNull: false },
+					onDelete: 'CASCADE'
+				});
 				User.belongsToMany(models.Exchange, {through: 'UserExchange'});
 			}
 		}

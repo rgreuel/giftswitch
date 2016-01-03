@@ -6,7 +6,9 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-				Wish.belongsTo(models.Wishlist);
+				Wish.belongsTo(models.Wishlist, {
+					foreignKey: { allowNull: false },
+					onDelete: 'CASCADE' });
 			}
 		}
 	);

@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
 			associate: function(models) {
 				Exchange.belongsToMany(models.User, {through: 'UserExchange'});
 				Exchange.hasMany(models.Wishlist);
+				Exchange.hasMany(models.ExchangePair, {
+					foreignKey: { allowNull: false },
+					onDelete: 'CASCADE'
+				});
 			}
 		}
 	);

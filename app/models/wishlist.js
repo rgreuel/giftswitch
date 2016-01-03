@@ -5,7 +5,9 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-				Wishlist.belongsTo(models.User);
+				Wishlist.belongsTo(models.User, {
+					foreignKey: { allowNull: false },
+					onDelete: 'CASCADE' });
 				Wishlist.belongsTo(models.Exchange);
 				Wishlist.hasMany(models.Wish);
 			}
