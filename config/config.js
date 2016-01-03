@@ -1,4 +1,16 @@
+var path = require('path');
+var rootPath = path.normalize(__dirname + '/..');
+
 module.exports = {
 	'port': process.env.PORT || 8080,
-	'database': 'mongodb://node:noder@ds035965.mongolab.com:35965/giftswitch'
+	'db': {
+		'name': 'giftswitch',
+		'username': 'giftswitch',
+		'password': 'giftswitch',
+		'host': 'localhost',
+		'port': 3306,
+		'dialect': 'mariadb'
+	},
+
+	'modelsDir': rootPath + '/app/models'
 };

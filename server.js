@@ -1,7 +1,6 @@
 
 var	express 		= require('express'),
 	app 			= express(),
-	mongoose		= require('mongoose'),
 	morgan			= require('morgan'),
 	bodyParser		= require('body-parser'),
 	session			= require('express-session'),
@@ -9,8 +8,7 @@ var	express 		= require('express'),
 	passport 		= require('passport');
 
 // APP CONFIGURATION--------------------------------
-mongoose.connect(config.database);
-
+var db = require('./config/sequelize'); // sequelize configuration
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up express
