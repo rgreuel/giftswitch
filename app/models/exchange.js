@@ -1,7 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
 
 	// schema for the user model
-	var Exchange = sequelize.define('exchange', {
+	var Exchange = sequelize.define('Exchange', {
 
 		name		: { type: DataTypes.STRING, allowNull: false },
 		owner		: { type: DataTypes.INTEGER,
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-				Exchange.belongsToMany(models.user, {through: 'UserExchange'});
+				Exchange.belongsToMany(models.User, {through: 'UserExchange'});
 			}
 		}
 	);

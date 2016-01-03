@@ -11,6 +11,6 @@ module.exports = {
 		'port': 3306,
 		'dialect': 'mariadb'
 	},
-
+	'FORCE_DB_SYNC': true,
 	'modelsDir': rootPath + '/app/models'
 };

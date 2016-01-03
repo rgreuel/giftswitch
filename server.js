@@ -9,7 +9,7 @@ var	express 		= require('express'),
 
 // APP CONFIGURATION--------------------------------
 var db = require('./config/sequelize'); // sequelize configuration
-require('./config/passport')(passport); // pass passport for configuration
+require('./config/passport')(passport, db); // pass passport for configuration
 
 // set up express
 app.use(express.static(__dirname + '/public')); // configure public assets folder
