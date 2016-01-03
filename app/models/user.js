@@ -1,6 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
 
-	// schema for the user model
 	var User = sequelize.define('User', {
 
 		googleID	: DataTypes.STRING,
@@ -10,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-				//User.hasMany(models.Wishlist);
+				User.hasMany(models.Wishlist);
 				User.belongsToMany(models.Exchange, {through: 'UserExchange'});
 			}
 		}

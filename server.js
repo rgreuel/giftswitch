@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 // ROUTES--------------------------------------------
-require('./app/routes/routes')(app, passport, express); // load our routes and pass in app and configured passport
+require('./app/routes/routes')(app, passport, express, db); // load our routes and pass in app and configured passport
 //---------------------------------------------------
 
 // start the server

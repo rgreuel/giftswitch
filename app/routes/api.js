@@ -1,6 +1,4 @@
-var User = require('../models/user');
-
-module.exports = function(app, express) {
+module.exports = function(app, express, db) {
 
 	var apiRouter = express.Router();
 
@@ -11,13 +9,12 @@ module.exports = function(app, express) {
 	});
 
 	apiRouter.get('/me', function(req, res) {
-		User.findById(req.user, function(err, user) {
-			if (err) {
+		db.User.findOne({ where: { id : req.user.id } }).then(function(user) {
+			res.json(user.googleName);
+		})
+		.error(function(err) {
 				res.send(err);
-			}
-
-			res.json(user.google.name);
-		});
+			});
 	});
 
 	// routes that end in /wishlist
@@ -26,38 +23,24 @@ module.exports = function(app, express) {
 		// add an item to the logged in user's wishlist
 		// access at POST http://localhost:8080/api/wishlist
 		.post(function(req, res) {
-			User.findById(req.user, function(err, user) {
-				if (err) {
-					res.send(err);
-				}
-
-				user.wishlist.push({
-					description	: req.body.description,
-					url			: req.body.url
-				});
-
-				var newWishlist = user.wishlist;
-
-				// save the item and check for errors
-				user.save(function(err) {
-					if (err) {
-						res.send(err);
-					}
-					res.json(newWishlist);
-				});
+			db.User.findOne({ where: { id : req.user } }).then(function(user) {
+				// TODO
+			})
+			.error(function(err) {
+				res.send(err);
 			});
 		})
 
 		// get all the itmes in the user's wishlist
 		// access at GET http://localhost:8080/api/wishlist
 		.get(function(req, res) {
-			User.findById(req.user, function(err, user) {
-				if (err) {
-					res.send(err);
-				}
+			// db.User.findById(req.user, function(err, user) {
+			// 	if (err) {
+			// 		res.send(err);
+			// 	}
 
-				res.json(user.wishlist);
-			});
+			// 	res.json(user.wishlist);
+			// });
 		});
 
 		// routes that end in /wishlist/:item_id
@@ -66,7 +49,7 @@ module.exports = function(app, express) {
 			// update the item with this id in the wishlist
 			// accessed at PUT http://localhost:8080/api/wishlist/:item_id
 			.put(function(req, res) {
-				User.findById(req.user, function(err, user) {
+				db.User.findById(req.user, function(err, user) {
 					if (err) {
 						res.send(err);
 					}
@@ -88,7 +71,7 @@ module.exports = function(app, express) {
 			// delete the item with this id in the wishlist
 			// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
 			.delete(function(req, res) {
-				User.findById(req.user, function(err, user) {
+				db.User.findById(req.user, function(err, user) {
 					if (err) {
 						res.send(err);
 					}

@@ -1,7 +1,7 @@
-module.exports = function(app, passport, express) {
+module.exports = function(app, passport, express, db) {
 
 	var path 		= require('path'),
-		apiRoutes	= require('./api')(app, express);
+		apiRoutes	= require('./api')(app, express, db);
 
 	// API ROUTES =========================================
 	// ====================================================
