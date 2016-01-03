@@ -27,8 +27,11 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 				// clear the form
 				vm.userData = {};
 
-				// grab the returned new wishlist
-				vm.wishlist = data;
+				// grab the new wishlist
+				Wishlist.all()
+					.success(function(data) {
+						vm.wishlist = data;
+					});
 			});
 	};
 

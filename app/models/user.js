@@ -1,18 +1,22 @@
-var mongoose = require('mongoose');
+module.exports = function(sequelize, DataTypes) {
 
-// schema for the user model
-var userSchema = mongoose.Schema({
+	var User = sequelize.define('User', {
 
-	google	: {
-		id		: String,
-		token	: String,
-		email	: String,
-		name	: String
-	},
+		googleID	: DataTypes.STRING,
+		googleToken	: DataTypes.STRING,
+		googleEmail	: DataTypes.STRING,
+		googleName	: DataTypes.STRING
+		},
+		{
+			associate: function(models) {
+				User.hasMany(models.Wishlist, {
+					foreignKey: { allowNull: false },
+					onDelete: 'CASCADE'
+				});
+				User.belongsToMany(models.Exchange, {through: 'UserExchange'});
+			}
+		}
+	);
 
-	wishlist : [{
-		description: { type: String, required: true},
-		url: String }]
-});
-
-module.exports = mongoose.model('User', userSchema);
+	return User;
+};

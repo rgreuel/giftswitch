@@ -1,7 +1,6 @@
 
 var	express 		= require('express'),
 	app 			= express(),
-	mongoose		= require('mongoose'),
 	morgan			= require('morgan'),
 	bodyParser		= require('body-parser'),
 	session			= require('express-session'),
@@ -9,9 +8,8 @@ var	express 		= require('express'),
 	passport 		= require('passport');
 
 // APP CONFIGURATION--------------------------------
-mongoose.connect(config.database);
-
-require('./config/passport')(passport); // pass passport for configuration
+var db = require('./config/sequelize'); // sequelize configuration
+require('./config/passport')(passport, db); // pass passport for configuration
 
 // set up express
 app.use(express.static(__dirname + '/public')); // configure public assets folder
@@ -39,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 // ROUTES--------------------------------------------
-require('./app/routes/routes')(app, passport, express); // load our routes and pass in app and configured passport
+require('./app/routes/routes')(app, passport, express, db); // load our routes and pass in app and configured passport
 //---------------------------------------------------
 
 // start the server
