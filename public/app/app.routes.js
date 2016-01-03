@@ -8,6 +8,18 @@ angular.module('appRoutes', ['ngRoute'])
 		templateUrl: 'app/views/pages/home.html'
 	})
 
+	.when('/recipient', {
+		templateUrl: 'app/views/pages/recipient.html',
+		controller: 'recipientController',
+		controllerAs: 'recipient'
+	})
+
+	.when('/settings', {
+		templateUrl: 'app/views/pages/settings.html',
+		controller: 'settingsController',
+		controllerAs: 'settings'
+	})
+
 	.when('/login', {
 		templateUrl: 'app/views/pages/login.html',
 		controller: 'mainController',
