@@ -1,6 +1,6 @@
 angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 
-.controller('mainController', function($window, $location, Wishlist) {
+.controller('mainController', function($window, $scope, $location, Wishlist) {
 	var vm = this;
 
 	vm.loggedIn = false;
@@ -55,6 +55,10 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 				// grab the returned new wishlist
 				vm.wishlist = data;
 			});
+	};
+
+	vm.isActive = function(viewLocation) {
+		return viewLocation === $location.path();
 	};
 
 	vm.googleLogin = function() {
