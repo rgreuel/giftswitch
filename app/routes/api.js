@@ -49,7 +49,7 @@ module.exports = function(app, express, db) {
 			db.Wishlist.findOrCreate({ where: { UserId : req.user.id, ExchangeId : null } })
 			.spread(function(wishlist, created) {
 				db.Wish.findAll({
-					attributes: ['description', 'url'],
+					attributes: ['id', 'description', 'url'],
 					where: { WishlistId : wishlist.id }
 			 })
 			.then(function(wishes) {
