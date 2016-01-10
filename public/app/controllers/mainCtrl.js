@@ -52,8 +52,11 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 		Wishlist.remove(id)
 			.success(function(data) {
 
-				// grab the returned new wishlist
-				vm.wishlist = data;
+				// grab the new wishlist
+				Wishlist.all()
+					.success(function(data) {
+						vm.wishlist = data;
+					});
 			});
 	};
 

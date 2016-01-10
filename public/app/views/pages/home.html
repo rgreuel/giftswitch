@@ -8,13 +8,13 @@
 				<span class="drag-handle">☰</span>
 				<a ng-href="{{ item.url }}" target="_blank" ng-show="item.url">{{ item.description }}</a>
 				<span ng-show="!item.url">{{ item.description }}</span>
-				<i class="glyphicon glyphicon-remove" ng-show="hoverEdit" ng-click="main.removeItem(item._id)"></i>
+				<i class="glyphicon glyphicon-remove" ng-show="hoverEdit" ng-click="main.removeItem(item.id)"></i>
 				<i class="glyphicon glyphicon-edit" ng-show="hoverEdit" ng-click="editItem= !editItem"></i>
 
 				<!-- Edit an existing item -->
 				<ul class="list-group edit-list" ng-show="editItem">
 					<li class="list-group-item">
-						<form class="form-horizontal" ng-submit="main.updateItem(item._id, $index); editItem = false">
+						<form class="form-horizontal" ng-submit="main.updateItem(item.id, $index); editItem = false">
 							<input type="text" value="{{ item.description }}" class="form-control" name="newDescription">
 							<input type="text" value="{{ item.url }}" class="form-control" name="newUrl">
 							<div class="edit-form-buttons" align="right">

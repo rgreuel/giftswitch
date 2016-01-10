@@ -21,7 +21,7 @@ module.exports = function(app, express, db) {
 	// routes that end in /wishlist (unassigned wishlist)
 	apiRouter.route('/wishlist')
 
-		// add an item to the logged in user's wishlist
+		// add a wish to the logged in user's wishlist
 		// access at POST http://localhost:8080/api/wishlist
 		.post(function(req, res) {
 			db.Wishlist.findOne({ where: { id : req.user.id, ExchangeId : null } })
@@ -43,7 +43,7 @@ module.exports = function(app, express, db) {
 			});
 		})
 
-		// get all the itmes in the user's unassigned wishlist
+		// get all the wishes in the user's unassigned wishlist (create one if not found)
 		// access at GET http://localhost:8080/api/wishlist
 		.get(function(req, res) {
 			db.Wishlist.findOrCreate({ where: { UserId : req.user.id, ExchangeId : null } })
@@ -51,18 +51,18 @@ module.exports = function(app, express, db) {
 				db.Wish.findAll({
 					attributes: ['id', 'description', 'url'],
 					where: { WishlistId : wishlist.id }
-			 })
-			.then(function(wishes) {
-				res.json(wishes);
-			});
+				 })
+				.then(function(wishes) {
+					res.json(wishes);
+				});
 			})
 			.error(function(err) {
 				res.send(err);
 			});
 		});
 
-		// // routes that end in /wishlist/:item_id
-		// apiRouter.route('/wishlist/:item_id')
+	// routes that end in /wishlist/:item_id
+	apiRouter.route('/wishlist/:item_id')
 
 		// 	// update the item with this id in the wishlist
 		// 	// accessed at PUT http://localhost:8080/api/wishlist/:item_id
@@ -86,27 +86,23 @@ module.exports = function(app, express, db) {
 		// 		});
 		// 	})
 
-		// 	// delete the item with this id in the wishlist
-		// 	// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
-		// 	.delete(function(req, res) {
-		// 		db.User.findById(req.user, function(err, user) {
-		// 			if (err) {
-		// 				res.send(err);
-		// 			}
-
-		// 			user.wishlist.id(req.params.item_id).remove();
-
-		// 			var newWishlist = user.wishlist;
-
-		// 			// save the wishlist and check for errors
-		// 			user.save(function(err) {
-		// 				if (err) {
-		// 					res.send(err);
-		// 				}
-		// 				res.json(newWishlist);
-		// 			});
-		// 		});
-		// 	});
+		// delete the wish with this id in the unassigned wishlist
+		// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
+		.delete(function(req, res) {
+			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
+			.then(function(wishlist) {
+				db.Wish.findOne({ where : { WishlistId : wishlist.id, id : req.params.item_id } })
+				.then(function(wish) {
+					wish.destroy({ force: true })
+					.then(function() {
+						res.json({ message: 'Item successfully deleted from wishlist' });
+					});
+				});
+			})
+			.error(function(err) {
+				res.send(err);
+			});
+		});
 
 	return apiRouter;
 };
