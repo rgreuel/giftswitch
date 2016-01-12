@@ -64,27 +64,27 @@ module.exports = function(app, express, db) {
 	// routes that end in /wishlist/:item_id
 	apiRouter.route('/wishlist/:item_id')
 
-		// 	// update the item with this id in the wishlist
-		// 	// accessed at PUT http://localhost:8080/api/wishlist/:item_id
-		// 	.put(function(req, res) {
-		// 		db.User.findById(req.user, function(err, user) {
-		// 			if (err) {
-		// 				res.send(err);
-		// 			}
-
-		// 			user.wishlist.id(req.params.item_id).description = req.body.description;
-		// 			user.wishlist.id(req.params.item_id).url = req.body.url;
-
-		// 			// save the wishlist and check for errors
-		// 			user.save(function(err) {
-		// 				if (err) {
-		// 					res.send(err);
-		// 				}
-		// 				// only send back the changed item
-		// 				res.json(user.wishlist.id(req.params.item_id));
-		// 			});
-		// 		});
-		// 	})
+		// update the item with this id in the wishlist
+		// accessed at PUT http://localhost:8080/api/wishlist/:item_id
+		.put(function(req, res) {
+			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
+			.then(function(wishlist) {
+				db.Wish.findOne({ where: { WishlistId : wishlist.id, id : req.params.item_id } })
+				.then(function(wish) {
+					wish.update({
+						description : req.body.description,
+						url : req.body.url
+					})
+					// only send back the changed item
+					.then(function() {
+						res.json(wish);
+					});
+				});
+			})
+			.error(function(err) {
+				res.send(err);
+			});
+		})
 
 		// delete the wish with this id in the unassigned wishlist
 		// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
