@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
 						},
 						allowNull: false
 		},
-		timeStarted : DataTypes.DATE
+		timeStarts	: DataTypes.DATE
 		},
 		{
 			associate: function(models) {

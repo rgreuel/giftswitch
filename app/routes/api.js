@@ -3,7 +3,7 @@ module.exports = function(app, express, db) {
 	var apiRouter = express.Router();
 
 	// test route to make sure everything is working
-	// access at GET http://localhost:8080/api
+	// accessed at GET http://localhost:8080/api
 	apiRouter.get('/', function(req, res) {
 		res.json({ message: 'welcome to the giftswitch api!' });
 	});
@@ -22,7 +22,7 @@ module.exports = function(app, express, db) {
 	apiRouter.route('/wishlist')
 
 		// add a wish to the logged in user's wishlist
-		// access at POST http://localhost:8080/api/wishlist
+		// accessed at POST http://localhost:8080/api/wishlist
 		.post(function(req, res) {
 			db.Wishlist.findOne({ where: { id : req.user.id, ExchangeId : null } })
 			.then(function(wishlist) {
@@ -44,7 +44,7 @@ module.exports = function(app, express, db) {
 		})
 
 		// get all the wishes in the user's unassigned wishlist (create one if not found)
-		// access at GET http://localhost:8080/api/wishlist
+		// accessed at GET http://localhost:8080/api/:exchange_id/wishlist
 		.get(function(req, res) {
 			db.Wishlist.findOrCreate({ where: { UserId : req.user.id, ExchangeId : null } })
 			.spread(function(wishlist, created) {
@@ -60,6 +60,7 @@ module.exports = function(app, express, db) {
 				res.send(err);
 			});
 		});
+
 
 	// routes that end in /wishlist/:item_id
 	apiRouter.route('/wishlist/:item_id')
@@ -103,6 +104,42 @@ module.exports = function(app, express, db) {
 				res.send(err);
 			});
 		});
+
+
+	// routes that end in /exchange
+	apiRouter.route('/exchange')
+
+		// get all of the exchanges that this user is a member of
+		// accessed at GET http://localhost:8080/api/exchange
+		.get(function(req, res) {
+
+			// TODO
+		})
+
+		// create an exchange
+		// accessed at POST http://localhost:8080/api/exchange
+		.post(function(req, res) {
+
+			// TODO
+		});
+
+	// routes that end in /exchange/:exchange_id
+	apiRouter.route('/exchange/:exchange_id')
+
+		// update the exchange with this id
+		// accessed at PUT http://localhost:8080/api/exchange/:exchange_id
+		.put(function(req, res) {
+
+			// TODO
+		})
+
+		// delete the exchange with this id
+		// accessed at DELETE http://localhost:8080/api/exchange/:exchange_id
+		.delete(function(req, res) {
+
+			// TODO
+		});
+
 
 	return apiRouter;
 };
