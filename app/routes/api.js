@@ -9,6 +9,7 @@ module.exports = function(app, express, db) {
 	});
 
 	apiRouter.get('/me', function(req, res) {
+
 		db.User.findOne({ where: { id : req.user.id } })
 		.then(function(user) {
 			res.json(user.googleName);
@@ -24,6 +25,7 @@ module.exports = function(app, express, db) {
 		// add a wish to the logged in user's wishlist
 		// accessed at POST http://localhost:8080/api/wishlist
 		.post(function(req, res) {
+
 			db.Wishlist.findOne({ where: { id : req.user.id, ExchangeId : null } })
 			.then(function(wishlist) {
 				db.Wish.create({
@@ -46,6 +48,7 @@ module.exports = function(app, express, db) {
 		// get all the wishes in the user's unassigned wishlist (create one if not found)
 		// accessed at GET http://localhost:8080/api/:exchange_id/wishlist
 		.get(function(req, res) {
+
 			db.Wishlist.findOrCreate({ where: { UserId : req.user.id, ExchangeId : null } })
 			.spread(function(wishlist, created) {
 				db.Wish.findAll({
@@ -68,6 +71,7 @@ module.exports = function(app, express, db) {
 		// update the item with this id in the wishlist
 		// accessed at PUT http://localhost:8080/api/wishlist/:item_id
 		.put(function(req, res) {
+
 			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
 			.then(function(wishlist) {
 				db.Wish.findOne({ where: { WishlistId : wishlist.id, id : req.params.item_id } })
@@ -90,6 +94,7 @@ module.exports = function(app, express, db) {
 		// delete the wish with this id in the unassigned wishlist
 		// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
 		.delete(function(req, res) {
+
 			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
 			.then(function(wishlist) {
 				db.Wish.findOne({ where : { WishlistId : wishlist.id, id : req.params.item_id } })
@@ -113,7 +118,16 @@ module.exports = function(app, express, db) {
 		// accessed at GET http://localhost:8080/api/exchange
 		.get(function(req, res) {
 
-			// TODO
+			db.User.findOne({ where: { id : req.user.id } })
+			.then(function(user) {
+				user.getExchanges()
+				.then(function(exchanges) {
+					res.json(exchanges);
+				});
+			})
+			.error(function(err) {
+				res.send(err);
+			});
 		})
 
 		// create an exchange
