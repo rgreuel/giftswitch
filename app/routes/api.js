@@ -134,7 +134,25 @@ module.exports = function(app, express, db) {
 		// accessed at POST http://localhost:8080/api/exchange
 		.post(function(req, res) {
 
-			// TODO
+			db.User.findOne({ where: { id : req.user.id } })
+			.then(function(user) {
+
+				db.Exchange.create({
+						name: req.body.name,
+						organizer: user.id,
+						timeStarts: req.body.timeStarts
+				})
+				.then(function(exchange) {
+					// add the exchange
+					user.addExchange(exchange);
+				});
+			})
+			.then(function() {
+				res.json({ message: 'Exchange successfully created' });
+			})
+			.error(function(err) {
+				res.send(err);
+			});
 		});
 
 	// routes that end in /exchange/:exchange_id
