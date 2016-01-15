@@ -20,8 +20,8 @@ angular.module('exchangeService', [])
 		return $http.put('/api/exchange/' + id, userData);
 	};
 
-	// remove item from the wishlist
-	exchangeFactory.remove = function(id) {
+	// delete the exchange
+	exchangeFactory.delete = function(id) {
 		return $http.delete('/api/exchange/' + id);
 	};
 
