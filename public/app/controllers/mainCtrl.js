@@ -1,6 +1,6 @@
-angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
+angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable'])
 
-.controller('mainController', function($window, $scope, $location, Wishlist) {
+.controller('mainController', function($window, $scope, $location, Wishlist, Exchange) {
 	var vm = this;
 
 	vm.loggedIn = false;
@@ -17,6 +17,12 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 		Wishlist.all()
 			.success(function(data) {
 				vm.wishlist = data;
+			});
+
+		// grab the exchanges at page load
+		Exchange.all()
+			.success(function(data) {
+				vm.exchanges = data;
 			});
 	}
 

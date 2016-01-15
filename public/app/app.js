@@ -1,5 +1,6 @@
 angular.module('giftSwitch', [
 	'appRoutes',
 	'mainCtrl',
-	'wishlistService'
+	'wishlistService',
+	'exchangeService'
 ]);
