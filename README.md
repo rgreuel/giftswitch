@@ -35,3 +35,4 @@ giftswitch was built with:
 * [Font Awesome] (https://fortawesome.github.io/Font-Awesome/)
 * [Stylus](http://www.stylus-lang.com)
 * [Sortable](https://github.com/RubaXa/Sortable)
+* [angular-moment-picker](https://github.com/indrimuska/angular-moment-picker)
