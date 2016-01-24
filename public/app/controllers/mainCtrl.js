@@ -82,6 +82,10 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 			});
 	};
 
+	vm.clearExchangeForm = function() {
+		$scope.reset();
+	}
+
 	vm.isActive = function(viewLocation) {
 		return viewLocation === $location.path();
 	};
