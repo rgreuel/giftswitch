@@ -2,5 +2,7 @@ angular.module('giftSwitch', [
 	'appRoutes',
 	'mainCtrl',
 	'wishlistService',
-	'exchangeService'
+	'exchangeService',
+	'ng-sortable',
+	'moment-picker'
 ]);

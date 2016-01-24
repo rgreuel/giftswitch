@@ -1,4 +1,4 @@
-angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable'])
+angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable', 'moment-picker'])
 
 .controller('mainController', function($window, $scope, $location, Wishlist, Exchange) {
 	var vm = this;
@@ -66,6 +66,22 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable']
 			});
 	};
 
+	vm.addExchange = function() {
+		Exchange.add(vm.userData)
+			.success(function(data) {
+
+				// close and reset the create exchange modal
+				$scope.dismiss();
+				$scope.reset();
+
+				// grab the new list of exchanges
+				Exchange.all()
+					.success(function(data) {
+						vm.exchanges = data;
+					});
+			});
+	};
+
 	vm.isActive = function(viewLocation) {
 		return viewLocation === $location.path();
 	};
@@ -76,5 +92,23 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable']
 
 	vm.logOut = function() {
 		$window.location.href ='/logout';
+	};
+})
+
+.directive('exchangeModal', function() {
+	return {
+		restrict: 'A',
+		link: function(scope, element, attr) {
+
+			scope.dismiss = function() {
+				element.modal('hide');
+			};
+
+			scope.reset = function() {
+				element.on('hidden.bs.modal', function() {
+					$(this).find('form')[0].reset();
+				});
+			};
+		}
 	};
 });
