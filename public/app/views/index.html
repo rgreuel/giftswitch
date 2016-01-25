@@ -47,7 +47,7 @@
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exchanges <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
-		            <li ng-repeat="exchange in main.exchanges"><a href="#">{{ exchange.name }}</a></li>
+		            <li ng-repeat="exchange in main.exchanges" ng-click="main.loadExchange(exchange.id, exchange.name)"><a href="#">{{ exchange.name }}</a></li>
 		            <li role="separator" class="divider"></li>
 		            <li><a data-toggle="modal" href="#createExchange"><i class="fa fa-plus"></i>Create an Exchange</a></li>
 		          </ul>
@@ -65,7 +65,7 @@
 		</nav>
 	</header>
 
-		<!-- Create an Exchange -->
+	<!-- Create an Exchange -->
 	<div class="modal fade" id="createExchange" tabindex="-1" role="dialog" aria-labelledby="modalLabel" exchange-modal>
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">

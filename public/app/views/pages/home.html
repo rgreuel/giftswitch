@@ -1,7 +1,7 @@
 <div class="row col-sm-16">
 
 	<div class="jumbotron">
-		<h3>{{ main.owner }}'s Wishlist</h3>
+		<h3>{{ main.currentExchangeName }}<br> <small>{{ main.owner }}'s Wishlist</small></h3>
 
 		<ul class="list-group" ng-sortable="{handle:'.drag-handle', animation:150}">
 			<li class="list-group-item" ng-repeat="item in main.wishlist" ng-mouseover="hoverEdit = true" ng-mouseleave="hoverEdit = false" draggable="false" class>

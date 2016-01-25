@@ -19,14 +19,16 @@ module.exports = function(app, express, db) {
 			});
 	});
 
-	// routes that end in /wishlist (unassigned wishlist)
-	apiRouter.route('/wishlist')
+	// routes that end in :exchange_id/wishlist (unassigned wishlist)
+	apiRouter.route('/:exchange_id/wishlist')
 
 		// add a wish to the logged in user's wishlist
-		// accessed at POST http://localhost:8080/api/wishlist
+		// accessed at POST http://localhost:8080/api/:exchange_id/wishlist
 		.post(function(req, res) {
+			var noExchange = req.params.exchange_id === 'null';
 
-			db.Wishlist.findOne({ where: { id : req.user.id, ExchangeId : null } })
+			db.Wishlist.findOne({
+				where: { UserId : req.user.id, ExchangeId : noExchange ? null : req.params.exchange_id } })
 			.then(function(wishlist) {
 				db.Wish.create({
 					WishlistId	: wishlist.id,
@@ -48,8 +50,10 @@ module.exports = function(app, express, db) {
 		// get all the wishes in the user's unassigned wishlist (create one if not found)
 		// accessed at GET http://localhost:8080/api/:exchange_id/wishlist
 		.get(function(req, res) {
+			var noExchange = req.params.exchange_id === 'null';
 
-			db.Wishlist.findOrCreate({ where: { UserId : req.user.id, ExchangeId : null } })
+			db.Wishlist.findOrCreate({
+				where: { UserId : req.user.id, ExchangeId : noExchange ? null : req.params.exchange_id } })
 			.spread(function(wishlist, created) {
 				db.Wish.findAll({
 					attributes: ['id', 'description', 'url'],
@@ -145,6 +149,16 @@ module.exports = function(app, express, db) {
 				.then(function(exchange) {
 					// add the exchange
 					user.addExchange(exchange);
+
+					// if user has an unassigned wishlist, assign it to this exchange
+					db.Wishlist.findOne({ where: { UserId : user.id, ExchangeId : null } })
+					.then(function(wishlist) {
+						if (wishlist) {
+							wishlist.update({
+								ExchangeId: exchange.id
+							});
+						}
+					});
 				});
 			})
 			.then(function() {

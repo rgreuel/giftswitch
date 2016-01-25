@@ -13,56 +13,75 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 				vm.owner = data;
 			});
 
-		// grab the wishlist at page load
-		Wishlist.all()
-			.success(function(data) {
-				vm.wishlist = data;
-			});
-
 		// grab the exchanges at page load
 		Exchange.all()
 			.success(function(data) {
 				vm.exchanges = data;
+				// default to first exchange in the list
+				if (vm.exchanges[0]) {
+					vm.currentExchange = vm.exchanges[0].id;
+					vm.currentExchangeName = vm.exchanges[0].name;
+				} else {
+					vm.currentExchange = null;
+				}
+			})
+			.then(function() {
+				// grab the wishlist at page load
+				Wishlist.all(vm.currentExchange)
+					.success(function(data) {
+						vm.wishlist = data;
+				});
 			});
 	}
 
 	vm.addItem = function() {
-		Wishlist.add(vm.userData)
+		Wishlist.add(vm.currentExchange, vm.userData)
 			.success(function(data) {
 
 				// clear the form
 				vm.userData = {};
 
 				// grab the new wishlist
-				Wishlist.all()
+				Wishlist.all(vm.currentExchange)
 					.success(function(data) {
 						vm.wishlist = data;
 					});
 			});
 	};
 
-	vm.updateItem = function(id, index) {
+	vm.updateItem = function(item_id, index) {
 
 		var newData = {};
 		newData.description = document.getElementsByName("newDescription")[index].value;
 		newData.url = document.getElementsByName("newUrl")[index].value;
 
 		// call the update API
-		Wishlist.update(id, newData)
+		Wishlist.update(item_id, newData)
 			.success(function(data) {
 				vm.wishlist[index] = data;
 			});
 	};
 
-	vm.removeItem = function(id) {
-		Wishlist.remove(id)
+	vm.removeItem = function(item_id) {
+		Wishlist.remove(item_id)
 			.success(function(data) {
 
 				// grab the new wishlist
-				Wishlist.all()
+				Wishlist.all(vm.currentExchange)
 					.success(function(data) {
 						vm.wishlist = data;
 					});
+			});
+	};
+
+	vm.loadExchange = function(exchange_id, exchange_name) {
+		vm.currentExchange = exchange_id;
+		vm.currentExchangeName = exchange_name;
+
+		// grab the new wishlist
+		Wishlist.all(vm.currentExchange)
+			.success(function(data) {
+				vm.wishlist = data;
 			});
 	};
 
@@ -84,7 +103,7 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 
 	vm.clearExchangeForm = function() {
 		$scope.reset();
-	}
+	};
 
 	vm.isActive = function(viewLocation) {
 		return viewLocation === $location.path();
