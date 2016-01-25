@@ -69,14 +69,16 @@ module.exports = function(app, express, db) {
 		});
 
 
-	// routes that end in /wishlist/:item_id
-	apiRouter.route('/wishlist/:item_id')
+	// routes that end in :exchange_id/wishlist/:item_id
+	apiRouter.route('/:exchange_id/wishlist/:item_id')
 
 		// update the item with this id in the wishlist
-		// accessed at PUT http://localhost:8080/api/wishlist/:item_id
+		// accessed at PUT http://localhost:8080/api/:exchange_id/wishlist/:item_id
 		.put(function(req, res) {
+			var noExchange = req.params.exchange_id === 'null';
 
-			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
+			db.Wishlist.findOne({
+				where: { UserId : req.user.id, ExchangeId : noExchange ? null : req.params.exchange_id } })
 			.then(function(wishlist) {
 				db.Wish.findOne({ where: { WishlistId : wishlist.id, id : req.params.item_id } })
 				.then(function(wish) {
@@ -96,10 +98,12 @@ module.exports = function(app, express, db) {
 		})
 
 		// delete the wish with this id in the unassigned wishlist
-		// accessed at DELETE http://localhost:8080/api/wishlist/:item_id
+		// accessed at DELETE http://localhost:8080/api/:exchange_id/wishlist/:item_id
 		.delete(function(req, res) {
+			var noExchange = req.params.exchange_id === 'null';
 
-			db.Wishlist.findOne({ where: { UserId : req.user.id, ExchangeId : null } })
+			db.Wishlist.findOne({
+				where: { UserId : req.user.id, ExchangeId : noExchange ? null : req.params.exchange_id } })
 			.then(function(wishlist) {
 				db.Wish.findOne({ where : { WishlistId : wishlist.id, id : req.params.item_id } })
 				.then(function(wish) {

@@ -56,14 +56,14 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 		newData.url = document.getElementsByName("newUrl")[index].value;
 
 		// call the update API
-		Wishlist.update(item_id, newData)
+		Wishlist.update(vm.currentExchange, item_id, newData)
 			.success(function(data) {
 				vm.wishlist[index] = data;
 			});
 	};
 
 	vm.removeItem = function(item_id) {
-		Wishlist.remove(item_id)
+		Wishlist.remove(vm.currentExchange, item_id)
 			.success(function(data) {
 
 				// grab the new wishlist

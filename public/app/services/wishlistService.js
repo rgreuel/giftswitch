@@ -21,13 +21,13 @@ angular.module('wishlistService', [])
 	};
 
 	// update the wishlist item
-	wishlistFactory.update = function(item_id, userData) {
-		return $http.put('/api/wishlist/' + item_id, userData);
+	wishlistFactory.update = function(exchange_id, item_id, userData) {
+		return $http.put('/api/' + exchange_id + '/wishlist/' + item_id, userData);
 	};
 
 	// remove item from the wishlist
-	wishlistFactory.remove = function(item_id) {
-		return $http.delete('/api/wishlist/' + item_id);
+	wishlistFactory.remove = function(exchange_id, item_id) {
+		return $http.delete('/api/' + exchange_id + '/wishlist/' + item_id);
 	};
 
 	return wishlistFactory;
