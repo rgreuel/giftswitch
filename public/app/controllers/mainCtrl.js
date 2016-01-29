@@ -1,36 +1,15 @@
-angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable', 'moment-picker'])
+angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 
-.controller('mainController', function($window, $scope, $location, Wishlist, Exchange) {
+.controller('mainController', function($window, $location, Wishlist) {
 	var vm = this;
 
 	vm.loggedIn = false;
 	if ($location.path() !== '/login') {
 		vm.loggedIn = true;
 
-
 		Wishlist.owner()
 			.success(function(data) {
 				vm.owner = data;
-			});
-
-		// grab the exchanges at page load
-		Exchange.all()
-			.success(function(data) {
-				vm.exchanges = data;
-				// default to first exchange in the list
-				if (vm.exchanges[0]) {
-					vm.currentExchange = vm.exchanges[0].id;
-					vm.currentExchangeName = vm.exchanges[0].name;
-				} else {
-					vm.currentExchange = null;
-				}
-			})
-			.then(function() {
-				// grab the wishlist at page load
-				Wishlist.all(vm.currentExchange)
-					.success(function(data) {
-						vm.wishlist = data;
-				});
 			});
 	}
 
@@ -74,37 +53,6 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 			});
 	};
 
-	vm.loadExchange = function(exchange_id, exchange_name) {
-		vm.currentExchange = exchange_id;
-		vm.currentExchangeName = exchange_name;
-
-		// grab the new wishlist
-		Wishlist.all(vm.currentExchange)
-			.success(function(data) {
-				vm.wishlist = data;
-			});
-	};
-
-	vm.addExchange = function() {
-		Exchange.add(vm.userData)
-			.success(function(data) {
-
-				// close and reset the create exchange modal
-				$scope.dismiss();
-				$scope.reset();
-
-				// grab the new list of exchanges
-				Exchange.all()
-					.success(function(data) {
-						vm.exchanges = data;
-					});
-			});
-	};
-
-	vm.clearExchangeForm = function() {
-		$scope.reset();
-	};
-
 	vm.isActive = function(viewLocation) {
 		return viewLocation === $location.path();
 	};
@@ -117,7 +65,6 @@ angular.module('mainCtrl', ['wishlistService', 'exchangeService', 'ng-sortable',
 		$window.location.href ='/logout';
 	};
 })
-
 .directive('exchangeModal', function() {
 	return {
 		restrict: 'A',

@@ -44,10 +44,10 @@
 		    <!-- Collect the nav links, forms, and other content for toggling -->
 		    <div ng-if="main.loggedIn" class="collapse navbar-collapse">
 		      <ul class="nav navbar-nav">
-		        <li class="dropdown">
+		        <li class="dropdown" ng-controller="exchangeController as exch">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exchanges <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
-		            <li ng-repeat="exchange in main.exchanges" ng-click="main.loadExchange(exchange.id, exchange.name)"><a href="#">{{ exchange.name }}</a></li>
+		            <li ng-repeat="exchange in exch.exchanges" ng-click="exch.loadExchange(exchange.id, exchange.name)"><a href="#">{{ exchange.name }}</a></li>
 		            <li role="separator" class="divider"></li>
 		            <li><a data-toggle="modal" href="#createExchange"><i class="fa fa-plus"></i>Create an Exchange</a></li>
 		          </ul>
@@ -74,15 +74,15 @@
 	        <h4 class="modal-title" id="modalLabel">Create an Exchange</h4>
 	      </div>
 	      <div class="modal-body">
-			<form class="form-horizontal" ng-submit="main.addExchange()">
-				<input type="text" class="form-control" ng-model="main.userData.name"
+			<form class="form-horizontal" ng-submit="exch.addExchange()">
+				<input type="text" class="form-control" ng-model="exch.userData.name"
 					placeholder="Exchange name">
 				<div class="input-group">
-					<input class="form-control" ng-model="main.userData.timeStarts" placeholder="Exchange start date" moment-picker="main.userData.timeStarts" format="LLLL">
+					<input class="form-control" ng-model="exch.userData.timeStarts" placeholder="Exchange start date" moment-picker="exch.userData.timeStarts" format="LLLL">
 					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				</div>
 				 <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="main.clearExchangeForm()">Cancel</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="exch.clearExchangeForm()">Cancel</button>
 			        <button type="submit" class="btn btn-primary">Create</button>
 		      	</div>
 			</form>
