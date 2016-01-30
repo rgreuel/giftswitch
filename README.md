@@ -36,3 +36,4 @@ giftswitch was built with:
 * [Stylus](http://www.stylus-lang.com)
 * [Sortable](https://github.com/RubaXa/Sortable)
 * [angular-moment-picker](https://github.com/indrimuska/angular-moment-picker)
+* [angular-modal-service](https://github.com/dwmkerr/angular-modal-service)
