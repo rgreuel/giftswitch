@@ -64,21 +64,4 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 	vm.logOut = function() {
 		$window.location.href ='/logout';
 	};
-})
-.directive('exchangeModal', function() {
-	return {
-		restrict: 'A',
-		link: function(scope, element, attr) {
-
-			scope.dismiss = function() {
-				element.modal('hide');
-			};
-
-			scope.reset = function() {
-				element.on('hidden.bs.modal', function() {
-					$(this).find('form')[0].reset();
-				});
-			};
-		}
-	};
 });

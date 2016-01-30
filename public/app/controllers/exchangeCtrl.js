@@ -1,6 +1,6 @@
-angular.module('exchangeCtrl', ['exchangeService', 'moment-picker'])
+angular.module('exchangeCtrl', ['exchangeService', 'wishlistService', 'angularModalService'])
 
-.controller('exchangeController', function($scope, Exchange, Wishlist) {
+.controller('exchangeController', function($scope, Exchange, Wishlist, ModalService) {
 	var vm = this;
 
 	// grab the exchanges at page load
@@ -35,23 +35,19 @@ angular.module('exchangeCtrl', ['exchangeService', 'moment-picker'])
 			});
 	};
 
-	vm.addExchange = function() {
-		Exchange.add(vm.userData)
-			.success(function(data) {
+	vm.showModal = function() {
 
-				// close and reset the create exchange modal
-				$scope.dismiss();
-				$scope.reset();
+		ModalService.showModal({
+			templateUrl: "app/views/pages/addExchangeModal.html",
+			controller: "addExchangeModalController"
+		}).then(function(modal) {
 
-				// grab the new list of exchanges
-				Exchange.all()
-					.success(function(data) {
-						vm.exchanges = data;
-					});
+			modal.element.modal();
+			modal.close.then(function(result) {
+				if (result) {
+					vm.exchanges = result.exchanges;
+				}
 			});
-	};
-
-	vm.clearExchangeForm = function() {
-		$scope.reset();
+		});
 	};
 });
