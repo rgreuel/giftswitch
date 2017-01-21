@@ -53,6 +53,10 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 			});
 	};
 
+	vm.editExchange = function() {
+		$location.path("/exchange");
+	};
+
 	vm.isActive = function(viewLocation) {
 		return viewLocation === $location.path();
 	};

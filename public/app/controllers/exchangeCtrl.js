@@ -1,6 +1,6 @@
 angular.module('exchangeCtrl', ['exchangeService', 'wishlistService', 'angularModalService'])
 
-.controller('exchangeController', function($scope, Exchange, Wishlist, ModalService) {
+.controller('exchangeController', function($scope, $location, Exchange, Wishlist, ModalService) {
 	var vm = this;
 
 	// grab the exchanges at page load

@@ -48,7 +48,7 @@
 		        <li class="dropdown" ng-controller="exchangeController as exch">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exchanges <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
-		            <li ng-repeat="exchange in exch.exchanges" ng-click="exch.loadExchange(exchange.id, exchange.name)"><a href="#">{{ exchange.name }}</a></li>
+		            <li ng-repeat="exchange in exch.exchanges" ng-click="exch.loadExchange(exchange.id, exchange.name)"><a href="/#">{{ exchange.name }}</a></li>
 		            <li role="separator" class="divider"></li>
 		            <li><a href="#" ng-click="exch.showModal()"><i class="fa fa-plus"></i>Create an Exchange</a></li>
 		          </ul>
