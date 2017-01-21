@@ -176,6 +176,12 @@ module.exports = function(app, express, db) {
 	// routes that end in /exchange/:exchange_id
 	apiRouter.route('/exchange/:exchange_id')
 
+		// get the details for the exchange with this id
+		.get(function(req, res) {
+
+			// TODO
+		})
+
 		// update the exchange with this id
 		// accessed at PUT http://localhost:8080/api/exchange/:exchange_id
 		.put(function(req, res) {

@@ -20,6 +20,12 @@ angular.module('appRoutes', ['ngRoute'])
 		controllerAs: 'settings'
 	})
 
+	.when('/exchange', {
+		templateUrl: 'app/views/pages/exchange.html',
+		controller: 'exchangeController',
+		controllerAs: 'exchange'
+	})
+
 	.when('/login', {
 		templateUrl: 'app/views/pages/login.html',
 		controller: 'mainController',

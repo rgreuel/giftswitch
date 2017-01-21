@@ -1,6 +1,9 @@
-angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
+angular.module('mainCtrl', ['wishlistService', 'exchangeService',
+				'angularModalService', 'ng-sortable'])
 
-.controller('mainController', function($window, $location, Wishlist) {
+.controller('mainController', function($window, $location, $scope,
+			Wishlist, Exchange, ModalService) {
+
 	var vm = this;
 
 	vm.loggedIn = false;
@@ -53,8 +56,52 @@ angular.module('mainCtrl', ['wishlistService', 'ng-sortable'])
 			});
 	};
 
-	vm.editExchange = function() {
-		$location.path("/exchange");
+	// grab the exchanges at page load
+	// only executed if logged in
+	Exchange.all()
+		.success(function(data) {
+			vm.exchanges = data;
+			// default to first exchange in the list
+			if (vm.exchanges[0]) {
+				$scope.main.currentExchange = vm.exchanges[0].id;
+				$scope.main.currentExchangeName = vm.exchanges[0].name;
+			} else {
+				$scope.main.currentExchange = null;
+			}
+		})
+		.then(function() {
+			// grab the wishlist at page load
+			Wishlist.all($scope.main.currentExchange)
+				.success(function(data) {
+					$scope.main.wishlist = data;
+				});
+		});
+
+	vm.loadExchange = function(exchange_id, exchange_name) {
+		$scope.main.currentExchange = exchange_id;
+		$scope.main.currentExchangeName = exchange_name;
+
+		// grab the new wishlist
+		Wishlist.all($scope.main.currentExchange)
+			.success(function(data) {
+				$scope.main.wishlist = data;
+			});
+	};
+
+	vm.showAddExchangeModal = function() {
+
+		ModalService.showModal({
+			templateUrl: "app/views/pages/addExchangeModal.html",
+			controller: "addExchangeModalController"
+		}).then(function(modal) {
+
+			modal.element.modal();
+			modal.close.then(function(result) {
+				if (result) {
+					vm.exchanges = result.exchanges;
+				}
+			});
+		});
 	};
 
 	vm.isActive = function(viewLocation) {

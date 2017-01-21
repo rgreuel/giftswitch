@@ -15,6 +15,11 @@ angular.module('exchangeService', [])
 		return $http.post('/api/exchange', userData);
 	};
 
+	// get an exchange
+	exchangeFactory.get = function(id) {
+		return $http.get('/api/exchange/' + id);
+	};
+
 	// update the exchange
 	exchangeFactory.update = function(id, userData) {
 		return $http.put('/api/exchange/' + id, userData);
